@@ -1,0 +1,27 @@
+.userProfilePage {
+  display: flex;
+  justify-content: center;
+  .userProfileWrapper{
+    width: 600px;
+    text-align: center;
+    padding: 20px;
+  }
+  .userIcon {
+    width: 200px;
+    height: 200px;
+  }
+  .meetingRow {
+    @extend .flexRow;
+    height: 30px;
+    &:nth-child(even) {
+      background: #efefef;
+    }
+  }
+  .userHeader {
+    margin: 10px
+  }
+  .meetingsList {
+    max-height: 300px;
+    overflow: auto;
+  }
+}

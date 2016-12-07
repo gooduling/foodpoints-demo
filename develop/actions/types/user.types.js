@@ -1,0 +1,8 @@
+// Naming: ACTION_ENTITY_RESULT
+export default {
+    GET_USER: 'GET_USER',
+    SELECT_USER: 'SELECT_USER',
+    LOG_IN: 'LOG_IN',
+    LOG_OUT: 'LOG_OUT',
+    ADD_APPOINTMENT: 'ADD_APPOINTMENT'
+};

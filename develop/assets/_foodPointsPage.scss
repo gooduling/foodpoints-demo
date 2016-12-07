@@ -1,0 +1,130 @@
+.foodpointsPage {
+  .foodpoint {
+    & > div {
+      @extend .flexRow;
+      margin: 1px;
+      font-size: 11px;
+    }
+    .fpHeader {
+      font-weight: bold;
+      &:not(:last-child) {
+        border-bottom: 1px solid $borders-color;
+      }
+    }
+    .fpTime {
+      font-weight: normal;
+      font-size: 0.9em;
+    }
+    .fpDescription {
+      font-style: italic;
+    }
+    .meetingTime {
+      display: inline-block;
+      width: 68px;
+    }
+    .joinBtn {
+      margin: 0;
+      width: 39px;
+    }
+  }
+  .foodResults {
+    @extend .flexRow;
+    justify-content: center;
+    max-width: 1200px;
+    border-top: 2px solid $theme-color;
+    border-bottom: 2px solid $theme-color;
+  }
+  .sideList {
+    height: calc(100vh - 410px);
+    width: calc(100% - 840px);
+    min-height: 600px;
+    overflow: auto;
+
+    .foodpoint {
+      border-bottom: 2px solid $theme-color;
+      padding: 5px;
+      .fpMeetingRow {
+        font-size: 0.8em;
+        padding-left: 15px;
+      }
+      .meetingTime {
+        width: 73px;
+      }
+    }
+  }
+  .leafletMap {
+    width: 800px;
+    height: calc(100vh - 410px);
+    min-height: 600px;
+  }
+  .leaflet-popup-content-wrapper, .leaflet-popup-content {
+    max-width: 80%;
+  }
+
+  .searchPanel {
+    margin-bottom: 10px;
+    @extend .flexRow;
+    justify-content: space-around;
+
+    .searchWrapper {
+      @media #{$medium} {
+        order: 3;
+      }
+      @media #{$extra-small} {
+        margin-right: 110px;
+        order: inherit;
+        width: 100%;
+      }
+      input {
+        text-align: center;
+      }
+    }
+    .results {
+      color: #A9A9B9;
+    }
+    .circularpickerwrapper {
+      &.time .results {
+        order: 0;
+        @media #{$small} {
+          order: 3;
+        }
+      }
+      &.day .results {
+        order: 2;
+      }
+    }
+
+  }
+  @media #{$large} {
+    .sideList {
+      order: 2;
+      width: 100%;
+      max-width: 800px;
+      padding: 0 30px;
+    }
+    .mapWrapper {
+      overflow: hidden;
+      width: calc(100vw - 60px);
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+.meetingBlock {
+  font-size: 15px;
+  text-align: center;
+
+
+  .mbHeader {
+    @extend .flexRow;
+    font-weight: bold;
+    border-bottom: 1px solid $borders-color;
+  }
+  .userRow {
+    @extend .flexRow;
+    padding-left: 15px;
+    &:hover {
+      background: #eee;
+    }
+  }
+}
