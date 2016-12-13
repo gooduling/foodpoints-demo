@@ -5,12 +5,11 @@ import * as d3 from 'd3';
 //import '../../../assets/timespanpicker.css';
 const config = {
     labelsPAdding: 13,
-    segmentsColorsArray: ['#bbb', '#ddd'],
     defaultInnerRadiusIndex: 1.4,
     defaultChartPadding: 60
 };
 
-class CircularDaypicker extends Component {
+class CircularColorPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -20,41 +19,36 @@ class CircularDaypicker extends Component {
     static propTypes = {
         outerRadius : React.PropTypes.number,
         innerRadius : React.PropTypes.number,
+        colorsNumber : React.PropTypes.number,
+        multiSelect : React.PropTypes.bool,
         onClick   : React.PropTypes.func
     };
 
     static defaultProps = {
+        colorsNumber: 7,
         outerRadius : 150,
-        showResults: false
+        showResults: false,
+        multiSelect: false
     };
 
     componentWillMount() {
-        let { outerRadius, innerRadius, onClick, showResults } = this.props;
+        let { outerRadius, innerRadius, onClick, showResults, colorsNumber } = this.props;
         innerRadius = (innerRadius && innerRadius < outerRadius) ? innerRadius : outerRadius/config.defaultInnerRadiusIndex;
 
         const width = outerRadius * 2 + config.defaultChartPadding;
 
         const pie = d3.pie().sort(null).value(d => 1);
-        const segmentsArray = pie(new Array(7));
-        const hoursLabelsArray = pie(new Array(12));
-        const colorScale = d3.scaleOrdinal().domain([0, 1, 2]).range(config.segmentsColorsArray);
+        const segmentsArray = pie(new Array(colorsNumber));
+        const colorScale = d3.scaleSequential()
+            .domain([0, colorsNumber])
+            .interpolator(d3.interpolateRainbow);
         const segmentsArcFn = d3.arc()
             .outerRadius(outerRadius)
             .innerRadius(innerRadius);
-        const minutesArcFn = d3.arc()
-            .outerRadius(outerRadius + config.labelsPAdding)
-            .innerRadius(outerRadius + config.labelsPAdding)
-            .startAngle(d => d.startAngle + Math.PI / 7)
-            .endAngle(d => d.endAngle + Math.PI  / 7);
-        const hoursArcFn = d3.arc()
-            .outerRadius(outerRadius + config.labelsPAdding)
-            .innerRadius(outerRadius + config.labelsPAdding)
-            .startAngle(d => d.startAngle - 0.26)
-            .endAngle(d => d.endAngle - 0.26);
+      
 
         const initialObject = {
-            width, segmentsArcFn, minutesArcFn, hoursArcFn, segmentsArray, onClick,
-            hoursLabelsArray, colorScale, innerRadius, outerRadius, showResults
+            width, segmentsArcFn, segmentsArray, onClick, colorScale, innerRadius, outerRadius, showResults
         };
         this.setState({ initialObject })
     }
@@ -65,10 +59,10 @@ class CircularDaypicker extends Component {
         if (isEntered && !this.state.initialObject.mouseIsClickedDown) return;
 
         clickedValue = String(clickedValue);
-        const {initialObject: {onClick}, selectedDays: {...segments}} = this.state;
+        const {initialObject: { onClick, multiSelect }, selectedDays: {...segments}} = this.state;
         const segmentPreviousValue = segments[clickedValue];
-        const currentSegment = { [clickedValue]: segmentPreviousValue ? null : true };
-        const selectedDays = { ...segments, ...currentSegment};
+        const currentSegment = {[clickedValue] : segmentPreviousValue ? null : true };
+        const selectedDays = multiSelect ? { ...segments, ...currentSegment} : {...currentSegment};
 
         this.setState({selectedDays});
         onClick(Object.keys(selectedDays).filter(key=>selectedDays[key]));
@@ -81,14 +75,14 @@ class CircularDaypicker extends Component {
 
     render() {
         if (!this.state.initialObject) return null;
-        const { width, segmentsArcFn, minutesArcFn, segmentsArray, colorScale, showResults } = this.state.initialObject;
         const { centerLabel } = this.props;
+        const { width, segmentsArcFn, segmentsArray, colorScale, showResults } = this.state.initialObject;
         const { selectedDays } = this.state;
         return (
-            <div className="day circularpickerwrapper"
-                onMouseDown={()=>{this.storeMouseIsClickedDown(true)}}
-                onMouseUp={()=>{this.storeMouseIsClickedDown(false)}}
-                onMouseLeave={()=>{this.storeMouseIsClickedDown(false)}}
+            <div className="color circularpickerwrapper"
+                 onMouseDown={()=>{this.storeMouseIsClickedDown(true)}}
+                 onMouseUp={()=>{this.storeMouseIsClickedDown(false)}}
+                 onMouseLeave={()=>{this.storeMouseIsClickedDown(false)}}
             >
                 <svg width={width} height={width}>
                     <g transform={`translate(${width/2},${width/2})`}>
@@ -98,61 +92,49 @@ class CircularDaypicker extends Component {
                                 index={index}
                                 item={item}
                                 segmentArcFn={segmentsArcFn}
-                                minutesArcFn={minutesArcFn}
-                                fill={colorScale(index % 2)}
-                                value={index}
+                                fill={colorScale(index)}
+                                value={colorScale(index).toString()}
                                 handleClick={this.handleClick.bind(this)}
-                                isActive={selectedDays[index]}
+                                isActive={selectedDays[colorScale(index)]}
                             />
                         ))}
                         <text className="centerLabel">{centerLabel}</text>
                     </g>
+
                 </svg>
                 {showResults ? <DayResults results={selectedDays}/> : null}
             </div>
         );
     }
 }
-export default CircularDaypicker;
+export default CircularColorPicker;
 
 
 /* Stateless Components */
 function Segment(props) {
-    const {item, segmentArcFn, minutesArcFn, label, fill, value, handleClick, isActive, index } = props;
-    const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const {item, segmentArcFn, fill, value, handleClick, isActive, index } = props;
     return (
-        <g className={`segment${isActive ? " active": !index || index===6 ? " weekend":""}`}
+        <g className={`segment${isActive ? " colorActive":""}`}
            onClick={()=>{handleClick(value)}}
            onMouseDown={()=>{handleClick(value, true)}}
         >
             <path
-                id={`day-${index}`}
                 d={segmentArcFn(item)}
                 fill={fill}
                 onMouseLeave={()=>{handleClick(value, true)}}
                 onDragLeave={()=>{handleClick(value, true)}}
                 onMouseDown={()=>{handleClick(value, true)}}
             />
-            {
-                <text
-                    className="dayLabel"
-                    dy="-0.5em"
-                    dx="40"
-                    dangerouslySetInnerHTML={{__html: `<textPath xlink:href="#day-${index}">${weekdays[index]}</textPath>`}}
-                >
-                </text>
-            }
         </g>
     )
 }
 
 function DayResults({results}) {
-    const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const days = Object.keys(results).filter(item => results[item]);
     return days.length ?
         (<div className="results">
-            <div>Selected days</div>
-            {days.map((day, n) => <p className="timeRow" key={n}>{dayMap[day]}</p>)}
+            <div>Selected colors</div>
+            {days.map((day, n) => <div className="colorBlock" key={n} style={{"background": day}}></div>)}
         </div>)
-        : <div className="results">Choose a day</div>
+        : <div className="results">Choose a color</div>
 }

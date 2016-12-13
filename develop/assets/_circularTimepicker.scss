@@ -18,8 +18,20 @@
   }
 }
 
-.results p {
-  margin: 5px;
+.results {
+  p {
+    margin: 5px;
+  }
+  .colorBlock {
+    width: 40px;
+    height: 40px;
+  }
+}
+.centerLabel {
+  text-anchor: middle;
+  alignment-baseline: middle;
+  font-size: 25px;
+  fill: #A9A9B9;
 }
 .segment {
   text {
@@ -38,7 +50,10 @@
   &.active path {
     cursor: pointer;
     stroke: $theme-contrast-color;
-    fill: $theme-color-dark !important;
+    fill: $theme-color-dark;
+  }
+  &.colorActive path {
+    transform: scale(1.05);
   }
   &:hover path {
     opacity: 0.7

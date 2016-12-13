@@ -29,6 +29,7 @@ class SearchPanel extends Component {
                 <CircularDaypicker
                     outerRadius={90}
                     onClick={(param)=>{this.storeFilterParam({dayParam: param})}}
+                    centerLabel={"Day"}
                     showResults
                 />
                 <div className="centered searchWrapper">
@@ -42,6 +43,7 @@ class SearchPanel extends Component {
                     interval={60}
                     outerRadius={90}
                     useMomentJs={false}
+                    centerLabel={"Time"}
                     showResults
                     onClick={(param)=>{this.storeFilterParam({timeParam: param.selectedSegments})}}
                 />

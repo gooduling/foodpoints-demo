@@ -224,6 +224,7 @@ class CircularTimespanpicker extends Component {
             segmentsArcFn, minutesArcFn, hoursArcFn, segmentsArray,
             hoursLabelsArray, colorScale, outerRadius, innerRadius, showResults
         } = this.state.initialObject;
+        const { centerLabel } = this.props;
         const { selectedSegments, combined } = this.state;
 
         return (
@@ -268,6 +269,7 @@ class CircularTimespanpicker extends Component {
                                 transform={`rotate(${this.getBoundaryLinesRotationDegree()})`}
                             />
                         </g>
+                        <text className="centerLabel">{centerLabel}</text>
                     </g>
                 </svg>
                 {showResults ? <TimeResults results={combined} useMomentJs={useMomentJs} /> : null}

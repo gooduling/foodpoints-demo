@@ -12,7 +12,7 @@ class WelcomePage extends Component {
                     <div className="welcomeButtonsWrapper">
                         <Link className="button hugeBtn" to="/foodpoints">Find place to Eat</Link>
                         <br/>
-                        <button className="hugeBtn" disabled>Find People to Eat</button>
+                        <Link className="button hugeBtn" to="/findpeople">Find people to Eat</Link>
                     </div> :
                     <SignIn {...this.props}/>
                 }
