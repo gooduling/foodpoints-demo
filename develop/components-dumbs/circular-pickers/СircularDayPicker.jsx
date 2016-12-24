@@ -20,16 +20,18 @@ class CircularDaypicker extends Component {
     static propTypes = {
         outerRadius : React.PropTypes.number,
         innerRadius : React.PropTypes.number,
-        onClick   : React.PropTypes.func
+        onClick   : React.PropTypes.func,
+        multiSelect : React.PropTypes.bool,
     };
 
     static defaultProps = {
         outerRadius : 150,
-        showResults: false
+        showResults: false,
+        multiSelect : false
     };
 
     componentWillMount() {
-        let { outerRadius, innerRadius, onClick, showResults } = this.props;
+        let { outerRadius, innerRadius, onClick, showResults, multiSelect } = this.props;
         innerRadius = (innerRadius && innerRadius < outerRadius) ? innerRadius : outerRadius/config.defaultInnerRadiusIndex;
 
         const width = outerRadius * 2 + config.defaultChartPadding;
@@ -54,7 +56,7 @@ class CircularDaypicker extends Component {
 
         const initialObject = {
             width, segmentsArcFn, minutesArcFn, hoursArcFn, segmentsArray, onClick,
-            hoursLabelsArray, colorScale, innerRadius, outerRadius, showResults
+            hoursLabelsArray, colorScale, innerRadius, outerRadius, showResults, multiSelect
         };
         this.setState({ initialObject })
     }
@@ -65,10 +67,10 @@ class CircularDaypicker extends Component {
         if (isEntered && !this.state.initialObject.mouseIsClickedDown) return;
 
         clickedValue = String(clickedValue);
-        const {initialObject: {onClick}, selectedDays: {...segments}} = this.state;
+        const {initialObject: {onClick, multiSelect}, selectedDays: {...segments}} = this.state;
         const segmentPreviousValue = segments[clickedValue];
         const currentSegment = { [clickedValue]: segmentPreviousValue ? null : true };
-        const selectedDays = { ...segments, ...currentSegment};
+        const selectedDays = multiSelect ? { ...segments, ...currentSegment} : {...currentSegment}; 
 
         this.setState({selectedDays});
         onClick(Object.keys(selectedDays).filter(key=>selectedDays[key]));

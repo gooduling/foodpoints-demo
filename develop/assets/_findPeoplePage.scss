@@ -1,0 +1,24 @@
+.findpeoplePage {
+  .demoResults {
+    top: 200;
+    position: fixed;
+    width: 200px;
+    padding: 20px;
+    border-right: 1px solid $borders-color;
+    font-weight: bold;
+  }
+  .demoPickersWrapper {
+    margin-left: 220px;
+  }
+  .demoRow {
+    text-align: left;
+    @extend .flexRow;
+    justify-content: space-around;
+  }
+  .colorBlock {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+}

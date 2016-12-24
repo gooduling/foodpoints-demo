@@ -32,7 +32,7 @@ class CircularColorPicker extends Component {
     };
 
     componentWillMount() {
-        let { outerRadius, innerRadius, onClick, showResults, colorsNumber } = this.props;
+        let { outerRadius, innerRadius, onClick, showResults, colorsNumber, multiSelect } = this.props;
         innerRadius = (innerRadius && innerRadius < outerRadius) ? innerRadius : outerRadius/config.defaultInnerRadiusIndex;
 
         const width = outerRadius * 2 + config.defaultChartPadding;
@@ -48,7 +48,8 @@ class CircularColorPicker extends Component {
       
 
         const initialObject = {
-            width, segmentsArcFn, segmentsArray, onClick, colorScale, innerRadius, outerRadius, showResults
+            width, segmentsArcFn, segmentsArray, onClick, colorScale, innerRadius,
+            outerRadius, showResults, multiSelect
         };
         this.setState({ initialObject })
     }

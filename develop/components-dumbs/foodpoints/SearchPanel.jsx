@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import Timepicker from './Timespanpicker.jsx';
-import CircularDaypicker from './СircularDayPicker.jsx';
+import TimePicker from '../circular-pickers/CircularTimePicker.jsx';
+import DayPicker from '../circular-pickers/СircularDayPicker.jsx';
 import SearchBar from 'react-search-input'
 
 class SearchPanel extends Component {
@@ -26,10 +26,11 @@ class SearchPanel extends Component {
 
         return (
             <div className="searchPanel">
-                <CircularDaypicker
+                <DayPicker
                     outerRadius={90}
                     onClick={(param)=>{this.storeFilterParam({dayParam: param})}}
                     centerLabel={"Day"}
+                    multiSelect   
                     showResults
                 />
                 <div className="centered searchWrapper">
@@ -39,11 +40,12 @@ class SearchPanel extends Component {
                     />
                     <button onClick={()=>handleSearchByParams(this.state)}>Find Food</button>
                 </div>
-                <Timepicker
+                <TimePicker
                     interval={60}
                     outerRadius={90}
                     useMomentJs={false}
                     centerLabel={"Time"}
+                    multiSelect
                     showResults
                     onClick={(param)=>{this.storeFilterParam({timeParam: param.selectedSegments})}}
                 />

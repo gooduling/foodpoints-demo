@@ -25,6 +25,7 @@ class CircularTimespanpicker extends Component {
         showResults : React.PropTypes.bool,
         useMomentJs : React.PropTypes.bool,
         onClick   : React.PropTypes.func,
+        multiSelect : React.PropTypes.bool,
         interval : (props, propName, componentName) => {
             const interval = props[propName];
             if ( !Number.isInteger(interval) || interval > 60 || 60 % interval) {
@@ -51,11 +52,12 @@ class CircularTimespanpicker extends Component {
         boundaryHour: 8,
         showResults : true,
         useMomentJs : true,
+        multiSelect : false,
         onClick   : (value) => { console.log (value) }
     };
 
     componentWillMount() {
-        let { outerRadius, innerRadius, interval, boundaryHour, onClick, showResults, useMomentJs } = this.props;
+        let { outerRadius, innerRadius, interval, boundaryHour, onClick, showResults, useMomentJs, multiSelect } = this.props;
         innerRadius = (innerRadius && innerRadius < outerRadius) ? innerRadius : outerRadius/config.defaultInnerRadiusIndex;
 
         const width = outerRadius * 2 + config.defaultChartPadding;
@@ -83,7 +85,7 @@ class CircularTimespanpicker extends Component {
 
         const initialObject = {
             interval, boundaryHour, width, segmentsInHour, boundaryIsPostMeridiem, useMomentJs,
-            segmentsArcFn, minutesArcFn, hoursArcFn, segmentsArray, showResults, onClick,
+            segmentsArcFn, minutesArcFn, hoursArcFn, segmentsArray, showResults, onClick, multiSelect,
             hoursLabelsArray, colorScale, innerRadius, outerRadius, totalNumberOfSegments
         };
         this.setState({ initialObject })
@@ -94,17 +96,22 @@ class CircularTimespanpicker extends Component {
         /* skip handling if click anf hover were started out of segments*/
         if (isEntered && !this.state.initialObject.mouseIsClickedDown) return;
 
-        const {initialObject: { onClick }, selectedSegments: {...segments}} = this.state;
+        const {initialObject: { onClick, multiSelect }, selectedSegments: {...segments}} = this.state;
         const segmentPreviousValue = segments[clickedSegment.name];
-        const currentSegment = { [clickedSegment.name]: segmentPreviousValue ? null : clickedSegment.value };
-        const selectedSegments = { ...segments, ...currentSegment};
-        let filteredSegments = {};
-        for (let key in selectedSegments) {
-            if (selectedSegments[key]) filteredSegments[key] = selectedSegments[key];
+        const currentSegment = {[clickedSegment.name]: segmentPreviousValue ? null : clickedSegment.value};
+        if(!multiSelect) {
+            this.setState({selectedSegments: currentSegment, combined: [clickedSegment.value]});
+            onClick({selectedSegments: currentSegment, combined: [clickedSegment.value]});
+        } else {
+            const selectedSegments = {...segments, ...currentSegment};
+            let filteredSegments = {};
+            for (let key in selectedSegments) {
+                if (selectedSegments[key]) filteredSegments[key] = selectedSegments[key];
+            }
+            const combined = this.getReducedArray({...segments, ...currentSegment});
+            this.setState({selectedSegments, combined});
+            onClick({selectedSegments: filteredSegments, combined});
         }
-        const combined = this.getReducedArray({ ...segments, ...currentSegment});
-        this.setState({selectedSegments, combined});
-        onClick({selectedSegments: filteredSegments, combined});
     }
 
     /* Define an hours labels. "showSingleBoundaryHour" set displaying of doubled boundary hours (e.g. '8|20', '16|4') */
