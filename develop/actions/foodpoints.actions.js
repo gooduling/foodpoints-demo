@@ -16,7 +16,7 @@ export const getFoodpoints = (params = {}) => (dispatch) => {
     return api.foodpoints.getFoodpoints(params).then(
         (data) => {
             // Map API response
-            const mResponse = fpMapper.res.getAll(data);  
+            const mResponse = fpMapper.res.getAll(data);
             dispatch(apiActions.success(fpTypes.GET_FOODPOINTS, mResponse));
         },
         (error) => {

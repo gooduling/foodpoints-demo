@@ -1,7 +1,7 @@
 # Foodpoints-Demo
 Demo app on React/Redux. It uses [react-circular-timepicker](https://github.com/gooduling/react-circular-timepicker) - graphic UI control to pick the time.
 
-This is just a prototype of my earlier idea to make a pretty tool which allows people to have a lunch together.
+This is just a prototype of my earlier idea to make a handy interface which allows people to find a partners to have a lunch together.
 I had to do some emulations to make first steps.
  So I used a dataset of "Mobile Food Schedule" from a https://data.sfgov.org/Economy-and-Community/Mobile-Food-Schedule/jjew-r69b
 Lets imagine there are not just a food trucks, but may be a cute cafeterias there 😉   - with it's schedule and locations in San Francisco. Now you can find them on a map (filtered by day, time or dishes) and you can choose any of them to see if somebody proposed to have a lunch there. If yes, you can join this appointment or leave it. Also you are able to see the profiles of other users. You need to login (I hardcoded user and password for you) or sign In with a new user to start. 
@@ -25,7 +25,7 @@ $ npm install
 
 ## Development
 
-- ``` $ develop:build ``` - Provide **compiled**, and **minified** bundles to 'public' directory.
+- ``` $ npm run develop:build ``` - Provide **compiled**, and **minified** bundles to 'public' directory.
 
 - ``` $ npm run develop:devserver ``` - Runs the project in development mode with hot-reloading of 'public' folder. Open your browser at http://localhost:3030.
 

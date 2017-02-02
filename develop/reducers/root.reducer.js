@@ -15,7 +15,7 @@ const rootReducer = combineReducers({
     common,
     api,
     user,
-    pickersDemo
+    pickersDemo,
 });
 
 export default rootReducer;

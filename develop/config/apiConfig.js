@@ -1,5 +1,5 @@
 module.exports = {
     baseUrl: 'https://data.sfgov.org/resource',
-    staticUrl: 'http://localhost:3031'
+    staticUrl: 'http://localhost:3031',
 };
 

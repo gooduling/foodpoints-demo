@@ -2,12 +2,12 @@ import userTypes from '../actions/types/user.types';
 
 const DEFAULT_STATE = {
     currentUser: {
-      appointments: []
+        appointments: [],
     },
     selectedUser: {
-      appointments: []
+        appointments: [],
     },
-    isLogged: false
+    isLogged: false,
 };
 
 export default (state = DEFAULT_STATE, action) => {
@@ -29,27 +29,27 @@ function logIn(state, action) {
             ...action.payload,
         },
         isLoading: false,
-        isLogged: true
+        isLogged: true,
     };
 }
 
-function logOut(state) { 
+function logOut(state) {
     return {
         ...state,
         isLogged: false,
-        currentUser: DEFAULT_STATE.currentUser
+        currentUser: DEFAULT_STATE.currentUser,
     };
 }
 
 function addAppointment(state, action) {
     const updatedAppointments = [...state.currentUser.appointments];
-    updatedAppointments.push(action.payload.meeting);   
+    updatedAppointments.push(action.payload.meeting);
     return {
         ...state,
         currentUser: {
             ...state.currentUser,
             appointments: updatedAppointments,
-        }
+        },
     };
 }
 
@@ -57,6 +57,6 @@ function addAppointment(state, action) {
 function selectUser(state, action) {
     return {
         ...state,
-        selectedUser: action.payload
+        selectedUser: action.payload,
     };
 }

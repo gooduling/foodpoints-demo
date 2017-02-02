@@ -5,9 +5,9 @@ const DEFAULT_STATE = {
     filterParams: {
         dayParam: [],
         timeParam: [],
-        keywordParam: ""
+        keywordParam: '',
     },
-    foodpoints: []
+    foodpoints: [],
 };
 
 export default (state = DEFAULT_STATE, action) => {
@@ -23,18 +23,18 @@ export default (state = DEFAULT_STATE, action) => {
     }
 };
 
-function addAppointmentToFoodpoint(state, {payload: { meeting, currentUser: {id, name, avatar}, isLeaveAction }}) {
+function addAppointmentToFoodpoint(state, { payload: { meeting, currentUser: { id, name, avatar }, isLeaveAction } }) {
     const { foodpoints } = state;
     const foodpointIndex = state.foodpoints.findIndex(item => item.foodpointId === meeting.foodpointId);
     const newFoodpoint = foodpoints[foodpointIndex];
-    const  { meetingSlots } = newFoodpoint;
+    const { meetingSlots } = newFoodpoint;
     const meetingIndex = meetingSlots.findIndex(item => item.meetingId === meeting.meetingId);
     const { users } = meetingSlots[meetingIndex];
     if (isLeaveAction) {
         const userIndex = users.findIndex(item => item.id === id);
-        users.splice(userIndex, 1)
+        users.splice(userIndex, 1);
     } else {
-        users.push({id, name, avatar});
+        users.push({ id, name, avatar });
     }
     meetingSlots[meetingIndex].isJoined = !isLeaveAction;
     return {
@@ -42,16 +42,16 @@ function addAppointmentToFoodpoint(state, {payload: { meeting, currentUser: {id,
         foodpoints: [
             ...foodpoints.slice(0, foodpointIndex),
             newFoodpoint,
-            ...foodpoints.slice(foodpointIndex+1)
-        ]
+            ...foodpoints.slice(foodpointIndex + 1),
+        ],
     };
 }
 
 function setFilterParams(state, action) {
     return {
         ...state,
-        filterParams: action.payload
-};
+        filterParams: action.payload,
+    };
 }
 
 function setTimeSearchParams(state, action) {
@@ -59,15 +59,15 @@ function setTimeSearchParams(state, action) {
         ...state,
         searchParams: {
             ...state.filterParams,
-            byTime: action.payload.byTime
-        }
+            byTime: action.payload.byTime,
+        },
     };
 }
 
 function getFoodpoints(state, action) {
     return {
         ...state,
-        foodpoints: [...action.payload]
+        foodpoints: [...action.payload],
     };
 }
 

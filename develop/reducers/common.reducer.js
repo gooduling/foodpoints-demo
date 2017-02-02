@@ -2,7 +2,7 @@ import cTypes from '../actions/types/common.types';
 
 const DEFAULT_STATE = {
     isModalOpen: false,
-    containerModalData: {},
+    modalData: {},
 };
 
 export default (state = DEFAULT_STATE, action) => {

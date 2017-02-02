@@ -11,5 +11,5 @@ export const closeModal = () => ({
 
 export const pickersDemoAction = (payload) => ({
     type: cTypes.SET_PICKERSDEMO,
-    payload
+    payload,
 });

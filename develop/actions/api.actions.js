@@ -9,14 +9,17 @@ import { httpStatusHandler } from '../constants/httpErrors.constant';
 // - have a { meta } property.
 
 export default {
-    // save in the api Reducer
+    /* get TYPE as a key and set 'isLoading' for this key in api.reducer */
     request(key, value = true) {
         return {
             type: apiTypes.SET_LOADING,
             payload: { key, value },
         };
     },
-
+/* if success,
+    1)call 'request' actionto set 'isLoad' to false,
+    2)then dispatch actually an action recieved as first argument (key)
+*/
     success(type, payload) {
         return (dispatch) => {
             dispatch(this.request(type, false));
@@ -29,7 +32,10 @@ export default {
         };
     },
 
-    // save in the api Reducer
+    /* if error,
+        1)call 'request' actionto set 'isLoad' to false,
+        2)dispatch SET_ERROR action for cpecified key to be savedin the api Reducer
+    */
     failure(key, error) {
         return (dispatch) => {
             dispatch(this.request(key, false));
@@ -47,7 +53,7 @@ export default {
             dispatch(action);
         };
     },
-    
+/* clear all records for specified key */
     clearState(key) {
         const action = {
             type: apiTypes.CLEAR_API_STATE,

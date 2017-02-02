@@ -15,10 +15,6 @@
     "clean": "rm -rf public/ node_modules/ && npm cache clean",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0"
   },
-  "pre-commit": [
-    "precommit-msg",
-    "lint"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://gooduling.github.io/foodpoints-demo.git"
@@ -47,7 +43,6 @@
     "install": "^0.8.2",
     "leaflet": "^1.0.1",
     "moment": "^2.16.0",
-    "normalizr": "^2.2.1",
     "npm": "^3.10.9",
     "query-string": "^3.0.0",
     "react": "15.3.2",
@@ -59,8 +54,7 @@
     "react-search-input": "^0.10.3",
     "react-waypoint": "^3.1.1",
     "redux": "^3.5.2",
-    "redux-thunk": "^2.1.0",
-    "reselect": "^2.5.3"
+    "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",

@@ -3,10 +3,9 @@ import cTypes from '../actions/types/common.types';
 const DEFAULT_STATE = {
     time: {},
     day: 3,
-    color: "#500",
-    number: 56
-}
-;
+    color: '#e00',
+    number: 56,
+};
 
 export default (state = DEFAULT_STATE, action) => {
     switch (action.type) {
@@ -16,8 +15,8 @@ export default (state = DEFAULT_STATE, action) => {
     }
 };
 
-function setPickers(state, {key, value}) {
-    let newState = {...state};
+function setPickers(state, { key, value }) {
+    let newState = { ...state };
     newState[key] = value;
     return newState;
 }

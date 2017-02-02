@@ -8,7 +8,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, '/public/static/build/'),
         filename: 'main.js',
-        publicPath: 'static/build/',
+        publicPath: 'static/build/'
     },
     module: {
         loaders: [
@@ -33,19 +33,7 @@ module.exports = {
             { test: /\.json$/, loader: 'json' },
         ],
     },
-    // npm image-webpack-loader
-    // imageWebpackLoader: {
-    //     pngquant: {
-    //         quality: '65-90',
-    //         speed: 4,
-    //     },
-    //     svgo: {
-    //         plugins: [
-    //             { removeViewBox: false },
-    //             { removeEmptyAttrs: false },
-    //         ],
-    //     },
-    // },
+
     plugins: [
         new HtmlWebpackPlugin({
             filename: '../../index.html',
