@@ -19,13 +19,13 @@ class AuthFormWrapper extends Component {
             {this.state.activeForm === 'login'
                 ? <LoginForm
                     handleLogin={handleLogin}
-                    switchLabel="Sign In"
+                    switchLabel="Sign Up"
                     switchHandler={()=>this.handleSwitch('signUp')}
                 />
                 : <SignUpForm
                     handleSubmit={handleSignUp}
                     switchLabel="Login"
-                    buttonLabel="Sign In"
+                    buttonLabel="Sign Up"
                     switchHandler={()=>this.handleSwitch('login')}
                 />
             }
